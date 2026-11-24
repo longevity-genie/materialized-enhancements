@@ -11,7 +11,9 @@ exists, so `CLAUDE.md` and `AGENTS.md` are kept identical by hand.
 
 **Owner:** lead (the merge is the maintainer's)
 
-LauraR20, 2026-07-13: a right-click hint under the text box (`pages/index.py`, `state.py`). Review it, then ask the maintainer to merge.
+LauraR20, 2026-07-13: a right-click hint under the text box (`pages/index.py`, `state.py`).
+
+Reviewed 2026-11-24, not run: the logic is sound (one-time hint after the first gene, fades after 4 s; `asyncio` is imported), but (1) the branch forks from main of 2026-07-08 and **conflicts** with today's main in both files, (2) the hint says "right-click", which a phone cannot do, while RM4 is about phones, (3) `first_gene_remove_hint_shown` sits beside an existing unused `remove_hint_shown`. Next: ask the author to rebase, or port it onto main with a touch wording; the merge is the maintainer's.
 
 ## RM2 — #25 fold a category back up
 
