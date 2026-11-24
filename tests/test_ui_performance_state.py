@@ -63,3 +63,24 @@ def test_capture_completion_drops_stl_transfer_blob() -> None:
 
     assert state.report_views_ready is True
     assert state.stl_base64 == ""
+
+
+def test_first_gene_remove_hint_fires_once_for_the_first_gene() -> None:
+    """PR #27: the right-click hint shows after the first gene only, and only once."""
+    first: Any = SimpleNamespace(
+        remove_hint_shown=False, first_gene_remove_hint_visible=False, included_genes=["a"]
+    )
+    assert ComposeState._maybe_first_gene_remove_hint(first) is not None
+    assert first.remove_hint_shown is True
+    assert first.first_gene_remove_hint_visible is True
+
+    again: Any = SimpleNamespace(
+        remove_hint_shown=True, first_gene_remove_hint_visible=False, included_genes=["a"]
+    )
+    assert ComposeState._maybe_first_gene_remove_hint(again) is None
+
+    second_gene: Any = SimpleNamespace(
+        remove_hint_shown=False, first_gene_remove_hint_visible=False, included_genes=["a", "b"]
+    )
+    assert ComposeState._maybe_first_gene_remove_hint(second_gene) is None
+    assert second_gene.remove_hint_shown is False
