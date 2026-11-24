@@ -3258,6 +3258,39 @@ def _personal_tag_enter_onboarding_script() -> rx.Component:
     )
 
 
+def _first_gene_remove_hint() -> rx.Component:
+    """Right-click needs a mouse: the hint is hidden on touch devices (see the coarse-pointer CSS)."""
+    return rx.el.div(
+        fomantic_icon("info circle", size=12, color="#86efac"),
+        rx.el.span(
+            "You can remove genes by right-clicking their marker chip on the body map.",
+            style={"marginLeft": "6px"},
+        ),
+        class_name="me-first-gene-remove-hint",
+        style={
+            "display": "flex",
+            "alignItems": "center",
+            "marginTop": "6px",
+            "padding": "6px 10px",
+            "borderRadius": "8px",
+            "fontSize": "0.78rem",
+            "fontWeight": "700",
+            "lineHeight": "1.35",
+            "backgroundColor": "rgba(15, 23, 42, 0.6)",
+            "border": "1px solid rgba(134, 239, 172, 0.48)",
+            "color": "#86efac",
+            "transition": "opacity 0.5s ease, transform 0.5s ease, max-height 0.5s ease",
+            "opacity": rx.cond(ComposeState.first_gene_remove_hint_visible, 1, 0),
+            "transform": rx.cond(
+                ComposeState.first_gene_remove_hint_visible, "translateY(0)", "translateY(-6px)"
+            ),
+            "maxHeight": rx.cond(ComposeState.first_gene_remove_hint_visible, "60px", "0px"),
+            "overflow": "hidden",
+            "pointerEvents": "none",
+        },
+    )
+
+
 def _rpg_body_map_panel() -> rx.Component:
     return rx.el.div(
         rx.el.div(
@@ -3373,6 +3406,7 @@ def _rpg_body_map_panel() -> rx.Component:
                         },
                     ),
                 ),
+                _first_gene_remove_hint(),
                 class_name="me-rpg-body-map-title",
             ),
             style={
@@ -6057,7 +6091,9 @@ def _rpg_flow_css() -> rx.Component:
             border-radius: 20px !important;
             box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.28), 0 18px 36px rgba(250, 204, 21, 0.18) !important;
         }
+        .me-first-gene-remove-hint { display: flex; }
         @media (hover: none) and (pointer: coarse) {
+            .me-first-gene-remove-hint { display: none !important; }
             .me-rpg-output-panel .me-reward-artifact-choice-grid {
                 grid-template-columns: minmax(0, 1fr) !important;
                 gap: 14px !important;

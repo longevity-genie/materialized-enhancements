@@ -1572,6 +1572,7 @@ class ComposeState(rx.State):
     notice_visible: bool = False
     notice_epoch: int = 0
     remove_hint_shown: bool = False
+    first_gene_remove_hint_visible: bool = False
     name_warning_visible: bool = False
     name_warning_epoch: int = 0
     genes_warning_visible: bool = False
@@ -1733,6 +1734,9 @@ class ComposeState(rx.State):
             self._mark_gene_milestones()
         self._recompute_params()
         if added:
+            hint = self._maybe_first_gene_remove_hint()
+            if hint:
+                yield hint
             yield rx.call_script(_mobile_body_change_overlay_script())
 
     def toggle_gene_from_library(self, gene: str, category: str):  # type: ignore[return]
@@ -1763,6 +1767,9 @@ class ComposeState(rx.State):
         self._record_mobile_gene_addition(gene, category)
         self._mark_gene_milestones()
         self._recompute_params()
+        hint = self._maybe_first_gene_remove_hint()
+        if hint:
+            yield hint
         yield rx.call_script(_mobile_body_change_overlay_script())
 
     def remove_gene_marker_shortcut(self, gene: str, category: str):  # type: ignore[return]
@@ -1838,6 +1845,20 @@ class ComposeState(rx.State):
 
     def _raise_error_notice(self, text: str) -> rx.event.EventSpec:
         return self._raise_notice(text, "error")
+
+    def _maybe_first_gene_remove_hint(self) -> rx.event.EventSpec | None:
+        """One-time hint after the first gene is added (PR #27, LauraR20)."""
+        if self.remove_hint_shown or len(self.included_genes) != 1:
+            return None
+        self.remove_hint_shown = True
+        self.first_gene_remove_hint_visible = True
+        return ComposeState.fade_first_gene_remove_hint()
+
+    @rx.event(background=True)
+    async def fade_first_gene_remove_hint(self) -> None:
+        await asyncio.sleep(4)
+        async with self:
+            self.first_gene_remove_hint_visible = False
 
     def show_materialize_hint(self):  # type: ignore[return]
         events: list[rx.event.EventSpec] = []
