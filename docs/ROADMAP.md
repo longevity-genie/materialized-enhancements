@@ -28,6 +28,6 @@ maintainer as one batch with a default). Written 2026-11-24 from the 8 open issu
 
 ## Toolchain facts
 
-- `uv sync` done on this machine (2026-11-24); `uv run pytest` was started, result recorded in `LEAD_NOTES.md`.
+- `uv sync` done on this machine (2026-11-24); `uv run pytest`: 650 passed, 10 skipped (14 min).
 - `dolt` is not on the PATH (`pixi global install dolt` would add it); no Dolt push has been tried.
 - No `.pre-commit-config.yaml` exists although `CLAUDE.md` names a hook: `CLAUDE.md` and `AGENTS.md` are kept identical by hand.
