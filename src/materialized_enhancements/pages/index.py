@@ -4502,6 +4502,43 @@ def _rpg_category_gene_accordion(category: str) -> rx.Component:
         },
     )
 
+    # Issue #25: a long open list needs a way back up without scrolling. Sticky, so it
+    # stays at the bottom of the viewport while the list is in view.
+    collapse_button = rx.el.div(
+        rx.el.button(
+            fomantic_icon("angle double up", size=14, color="#f8fafc"),
+            rx.el.span(f"Fold {category}", style={"marginLeft": "6px"}),
+            type="button",
+            class_name="me-rpg-category-fold-button",
+            aria_label=f"Fold {category} and go back to the category list",
+            on_click=[
+                ComposeState.toggle_gene_library_accordion(category),
+                rx.scroll_to(_category_anchor_id(category)),
+            ],
+            style={
+                "display": "inline-flex",
+                "alignItems": "center",
+                "padding": "8px 14px",
+                "borderRadius": "999px",
+                "border": f"1px solid {color}88",
+                "background": "rgba(15, 23, 42, 0.96)",
+                "boxShadow": f"0 0 14px {color}55",
+                "color": "#f8fafc",
+                "fontSize": "0.85rem",
+                "fontWeight": "700",
+                "cursor": "pointer",
+            },
+        ),
+        style={
+            "position": "sticky",
+            "bottom": "10px",
+            "zIndex": "5",
+            "display": "flex",
+            "justifyContent": "center",
+            "padding": "8px 0",
+        },
+    )
+
     return rx.el.details(
         rx.el.summary(
             rx.el.div(
@@ -4594,7 +4631,7 @@ def _rpg_category_gene_accordion(category: str) -> rx.Component:
             ],
         ),
         # Mount gene cards only while this fold is open (selection stays in state).
-        rx.cond(is_open, gene_grid, rx.fragment()),
+        rx.cond(is_open, rx.fragment(gene_grid, collapse_button), rx.fragment()),
         class_name="me-rpg-category-accordion",
         id=_category_anchor_id(category),
         open=is_open,

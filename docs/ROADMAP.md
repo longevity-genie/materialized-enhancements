@@ -16,7 +16,7 @@ Reviewed 2026-11-24, not run: the logic is sound (one-time hint after the first 
 
 ## RM2 — #25 fold a category back up
 
-**State:** unattended
+**State:** done (sticky "Fold <category>" button at the bottom of an open list; built, not viewed)
 **Owner:** lead
 
 A collapse button on an open category so a long gene list need not be scrolled back. UI: built, not viewed.
