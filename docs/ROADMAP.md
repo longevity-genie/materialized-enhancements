@@ -7,7 +7,7 @@ exists, so `CLAUDE.md` and `AGENTS.md` are kept identical by hand.
 
 ## RM1 — Review PR #27 "Hint for fast removal"
 
-**State:** unattended
+**State:** done (ported onto main in 1576f6b; PR #27 to be closed by the maintainer)
 **Owner:** lead (the merge is the maintainer's)
 
 LauraR20, 2026-07-13: a right-click hint under the text box (`pages/index.py`, `state.py`).
