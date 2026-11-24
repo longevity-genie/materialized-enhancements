@@ -5,22 +5,6 @@ Open work only; an item is `## RM<n> — title` with its state and owner under i
 650 passed / 10 skipped (14 min); `dolt` is not on the PATH (`pixi global install dolt`); no pre-commit config
 exists, so `CLAUDE.md` and `AGENTS.md` are kept identical by hand.
 
-## RM1 — Review PR #27 "Hint for fast removal"
-
-**State:** done (ported onto main in 1576f6b; PR #27 to be closed by the maintainer)
-**Owner:** lead (the merge is the maintainer's)
-
-LauraR20, 2026-07-13: a right-click hint under the text box (`pages/index.py`, `state.py`).
-
-Reviewed 2026-11-24, not run: the logic is sound (one-time hint after the first gene, fades after 4 s; `asyncio` is imported), but (1) the branch forks from main of 2026-07-08 and **conflicts** with today's main in both files, (2) the hint says "right-click", which a phone cannot do, while RM4 is about phones, (3) `first_gene_remove_hint_shown` sits beside an existing unused `remove_hint_shown`. Next: ask the author to rebase, or port it onto main with a touch wording; the merge is the maintainer's.
-
-## RM2 — #25 fold a category back up
-
-**State:** done (sticky "Fold <category>" button at the bottom of an open list; built, not viewed)
-**Owner:** lead
-
-A collapse button on an open category so a long gene list need not be scrolled back. UI: built, not viewed.
-
 ## RM3 — #24 icons still active during the intro tutorial
 
 **State:** unattended
