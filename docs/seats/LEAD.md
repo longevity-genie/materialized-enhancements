@@ -14,12 +14,8 @@ other species, and get a personal enhancement report and a printable crystal; th
 behind it is edited on DoltHub and synced into `data/enhancement.db` (`README.md`, `CLAUDE.md`). The
 trunk has been quiet since 2026-08-24, and its open work lives in issues, one outside pull request and
 three briefs under `docs/opengenes-*.md`; no document lists it in order. One session holds that plan
-and builds it. The maintainer, 2026-11-24: "I think lead alone on a server is ok, the website is
-enhanced.bio".
-
-**The site's address is not settled.** The maintainer named it `enhanced.bio`; `CLAUDE.md` and the
-code say `https://enhancement.bio`, which answered 200 on 2026-11-24 while `enhanced.bio` answered 404.
-The seat's first work asks once which is canonical; until the answer, nothing is renamed.
+and builds it. The maintainer, 2026-11-24: "I think lead alone on a server is ok". The public site is
+`https://enhancement.bio/` (the maintainer, the same day).
 
 ## Where it runs
 
