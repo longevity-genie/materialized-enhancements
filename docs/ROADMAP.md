@@ -10,7 +10,7 @@ exists, so `CLAUDE.md` and `AGENTS.md` are kept identical by hand.
 **State:** unattended
 **Owner:** lead
 
-`scripts/validate_stl.py` (2026-11-25) cross-checks the 75 report rows and 78 STL files against the database's PDB/UniProt ids. First run: 11 report rows have no gene and no gene uses their PDB id (5W21, 3HH2, 7S5H, 3F1P, 5F3B, 5UDZ, 8Y02, 9C5S, 5MEO, 5VAQ, 9QNG: orphan files, to delete or map; the maintainer's call, they are LFS-tracked); 3 STL files have no report row; every model is reported not watertight (cartoon renders with many shells, expected, but a print check on one model with a slicer is still missing). Next: decide the orphans with the maintainer, then compare a few models with their PDB structure by eye (someone with a viewer).
+`scripts/validate_stl.py` (2026-11-25) cross-checks the 75 report rows and 75 STL files against the database's PDB/UniProt ids. First run: 11 report rows have no gene and no gene uses their PDB id (5W21, 3HH2, 7S5H, 3F1P, 5F3B, 5UDZ, 8Y02, 9C5S, 5MEO, 5VAQ, 9QNG: orphan files, to delete or map; the maintainer's call, they are LFS-tracked); every STL file has a report row (the extra directory entries are not STLs); every model is reported not watertight (cartoon renders with many shells, expected, but a print check on one model with a slicer is still missing). Next: decide the orphans with the maintainer, then compare a few models with their PDB structure by eye (someone with a viewer).
 
 ## RM6 — OpenGenes: eight directionality defects and `bub1b_t23`
 
