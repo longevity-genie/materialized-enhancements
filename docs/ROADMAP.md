@@ -5,13 +5,6 @@ Open work only; an item is `## RM<n> — title` with its state and owner under i
 650 passed / 10 skipped (14 min); `dolt` is not on the PATH (`pixi global install dolt`); no pre-commit config
 exists, so `CLAUDE.md` and `AGENTS.md` are kept identical by hand.
 
-## RM4 — #15 mobile: one-column layout
-
-**State:** unattended
-**Owner:** lead
-
-The maintainer's own issue. UI: built, not viewed.
-
 ## RM5 — #16 validate the printable protein models
 
 **State:** unattended

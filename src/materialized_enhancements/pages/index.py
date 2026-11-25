@@ -10897,7 +10897,7 @@ def _tab_page(active_route: str, content: rx.Component) -> rx.Component:
             border-color: rgba(124, 58, 237, 0.72) !important;
             font-weight: 800 !important;
         }
-        @media (hover: none) and (pointer: coarse) {
+        @media (hover: none) and (pointer: coarse), (max-width: 820px) {
             #me-top-tab-menu.ui.top.attached.tabular.menu {
                 display: flex !important;
                 overflow-x: auto !important;
@@ -11085,7 +11085,7 @@ def _tab_page(active_route: str, content: rx.Component) -> rx.Component:
                 font-size: clamp(1.6rem, 1.4vw, 2.05rem) !important;
             }
         }
-        @media (hover: none) and (pointer: coarse) {
+        @media (hover: none) and (pointer: coarse), (max-width: 820px) {
             html:has(.me-rpg-profile-page),
             body:has(.me-rpg-profile-page) {
                 overflow-x: hidden !important;
