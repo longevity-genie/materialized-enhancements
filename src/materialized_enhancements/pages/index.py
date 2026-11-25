@@ -6233,6 +6233,12 @@ def _rpg_flow_css() -> rx.Component:
             position: relative;
             z-index: 1010;
         }
+        .me-onboarding-center-lift .me-rpg-body-marker,
+        .me-onboarding-name-step .me-rpg-materialize-leg-cta {
+            /* Issue #24: only the tip's own target stays live; the rest is dimmed. */
+            opacity: 0.18;
+            pointer-events: none;
+        }
         .me-onboarding-gene-lift .me-orientation-block,
         .me-onboarding-gene-lift .me-rpg-sidebar-intro,
         .me-onboarding-gene-lift .me-budget-gauge,
@@ -7201,7 +7207,11 @@ def _rpg_active_genes_layout() -> rx.Component:
                     "me-rpg-center-panel me-onboarding-marker-hint",
                     rx.cond(
                         ComposeState.show_onboarding_center_lift,
-                        "me-rpg-center-panel me-onboarding-center-lift",
+                        rx.cond(
+                            ComposeState.show_onboarding_name,
+                            "me-rpg-center-panel me-onboarding-center-lift me-onboarding-name-step",
+                            "me-rpg-center-panel me-onboarding-center-lift",
+                        ),
                         "me-rpg-center-panel",
                     ),
                 ),

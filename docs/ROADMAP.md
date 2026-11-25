@@ -5,13 +5,6 @@ Open work only; an item is `## RM<n> — title` with its state and owner under i
 650 passed / 10 skipped (14 min); `dolt` is not on the PATH (`pixi global install dolt`); no pre-commit config
 exists, so `CLAUDE.md` and `AGENTS.md` are kept identical by hand.
 
-## RM3 — #24 icons still active during the intro tutorial
-
-**State:** unattended
-**Owner:** lead
-
-UI: built, not viewed.
-
 ## RM4 — #15 mobile: one-column layout
 
 **State:** unattended
