@@ -40,16 +40,24 @@ Decided by default (no cost either way). Build after RM2–RM4, presets as data 
 
 Lead builds the skippable player; the clip itself is made by the maintainer or a volunteer.
 
-## RM11 — #20 UX review "think like a tester"
-
-**State:** unattended
-**Owner:** lead
-
-The lead writes findings from the code; each becomes a plan item.
-
 ## RM12 — Where pages are looked at
 
 **State:** blocked: desk #87
 **Owner:** lead
 
 Needs the maintainer. Desk #87: no page is shown on this server; visual items stay "built, not viewed" until a way of looking is named.
+
+## RM13 — #20 keep the visitor's gene choice across a reload
+
+**State:** unattended
+**Owner:** lead
+
+From the UX read (2026-11-26): only the onboarding flags go to `localStorage` (`state.py`); the chosen genes, name and categories live in server state, so a reload or a dropped connection on a phone loses the build. Store the choice in `localStorage` and restore it on load; the shared recreate URL stays the way to share.
+
+## RM14 — #20 keyboard and screen-reader pass on the gene screen
+
+**State:** unattended
+**Owner:** lead
+
+From the UX read: `pages/index.py` (11.5k lines) has 16 aria labels and 3 keyboard hooks, so the gene accordions, body-map markers and Materialize button are probably unreachable without a mouse. Audit with real tab order, add labels and Enter/Space handling where missing. Built, not viewed, until RM12 names a way of looking.
+
