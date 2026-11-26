@@ -17,7 +17,7 @@ exists, so `CLAUDE.md` and `AGENTS.md` are kept identical by hand.
 **State:** unattended
 **Owner:** lead
 
-Items B and C of `docs/opengenes-open-issues.md`. Rule: `gene_confidence` on existing genes is flagged, never overwritten. Each read against the database first; the rulings are filed on the desk when each is read.
+Items B and C of `docs/opengenes-open-issues.md`. Rule: `gene_confidence` on existing genes is flagged, never overwritten. Read against `data/enhancement.db` on 2026-11-26: `bub1b_t23` is already fixed (its primary row now says human genetics "bounds the deficiency side only" and that the case rests on the mouse overexpression arm); `foxo3` and `klotho` knockout rows are both `positive=false` now, one convention; `aqp1`, `hsf1_pv`, `xrcc5_roughy`, `uhrf1_deer`, `lrrc10_cardiac`, `rgy_pyrococcus` cards already say in `short_description` that the loss-of-function result shows necessity, not benefit of extra copies. Left: read their `narrative`, `achievements` and `mechanism` for the same slip (`uhrf1_deer` and `lrrc10_cardiac` have no primary confidence row to check), and flag any that remain to the maintainer; no edits to existing genes, and `dolt` is not here anyway.
 
 ## RM7 — OpenGenes wave 4: 130 never-reviewed genes
 
