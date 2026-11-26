@@ -14,10 +14,10 @@ exists, so `CLAUDE.md` and `AGENTS.md` are kept identical by hand.
 
 ## RM7 — OpenGenes wave 4: 130 never-reviewed genes
 
-**State:** unattended
+**State:** blocked: desk #93
 **Owner:** lead
 
-Needs `dolt` on the PATH and the brief's input artifacts, which live outside this repo and must be found or rebuilt.
+The brief's 8 input artifacts live in the maintainer's science session (not on this server), and `pixi global install dolt` finds no candidate here (2026-11-26). Desk #93: the maintainer supplies the files and a dolt binary, or the wave is parked (default: parked).
 
 ## RM8 — #13 gene interaction scores
 
