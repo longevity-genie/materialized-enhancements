@@ -1600,6 +1600,7 @@ class ComposeState(rx.State):
     )
     onboarding_step: str | None = rx.LocalStorage("pending", name="me_onboarding_step", sync=True)
     onboarding_version: str | None = rx.LocalStorage("pending", name="me_onboarding_version", sync=True)
+    saved_build: str | None = rx.LocalStorage("", name="me_saved_build", sync=True)
 
     # Share card (in-memory preview, no disk write)
     share_card_data_url: str = ""
@@ -1946,6 +1947,9 @@ class ComposeState(rx.State):
     def _recompute_params(self) -> None:
         """Recompute sculpture params live as the user changes selections."""
         self._shrink_included_genes_to_budget()
+        self.saved_build = json.dumps(
+            {"tag": self.personal_tag, "genes": list(self.included_genes)}
+        ) if self.included_genes else ""
         if not self.selected_categories:
             self.sculpture_params = {}
             return
@@ -2142,6 +2146,33 @@ class ComposeState(rx.State):
         if not self.onboarding_finished:
             yield rx.call_script(self._onboarding_storage_script())
             yield rx.call_script(_mobile_onboarding_scroll_script(self.onboarding_step_index))
+
+    def restore_saved_build(self) -> None:
+        """Bring back the gene choice a visitor left in this browser (on reload or a dropped connection).
+
+        Skipped when a build is already in memory or a shared report link is being opened.
+        """
+        if self.included_genes or self.selected_categories or not self.saved_build:
+            return
+        if str(self.router.url.query_parameters.get("report", "")) == "1":
+            return
+        try:
+            saved = json.loads(self.saved_build)
+            genes = [str(g) for g in saved["genes"]]
+            tag = str(saved.get("tag", ""))
+        except (ValueError, KeyError, TypeError, AttributeError):
+            logger.warning("restore_saved_build: unreadable saved build, ignoring it")
+            self.saved_build = ""
+            return
+        category_by_gene = {g["gene"]: g["category"] for g in GAME_GENE_LIBRARY}
+        valid = [g for g in genes if g in category_by_gene]
+        if not valid:
+            return
+        if tag.strip():
+            self.personal_tag = tag
+        self.selected_categories = [c for c in UNIQUE_CATEGORIES if c in {category_by_gene[g] for g in valid}]
+        self.included_genes = valid
+        self._recompute_params()
 
     def toggle_choice_expanded(self) -> None:
         self.choice_expanded = not self.choice_expanded

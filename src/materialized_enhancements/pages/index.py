@@ -11485,7 +11485,7 @@ def _tab_page(active_route: str, content: rx.Component) -> rx.Component:
     image=_page_image_url(),
     description=_page_description("/"),
     meta=_page_meta("/"),
-    on_load=[AppState.redirect_legacy_tab, ComposeState.check_clean_storage],
+    on_load=[AppState.redirect_legacy_tab, ComposeState.check_clean_storage, ComposeState.restore_saved_build],
 )
 def index_page() -> rx.Component:
     """Character profile — default RPG loadout builder."""

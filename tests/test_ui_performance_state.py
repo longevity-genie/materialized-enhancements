@@ -4,7 +4,7 @@ import json
 from types import SimpleNamespace
 from typing import Any
 
-from materialized_enhancements.gene_data import read_protein_stl, stl_display_for_gene
+from materialized_enhancements.gene_data import GAME_GENE_LIBRARY, read_protein_stl, stl_display_for_gene
 from materialized_enhancements.state import (
     COMPOSITION_GENE_CATALOG,
     COMPOSITION_GENE_CATALOG_BY_CATEGORY,
@@ -84,3 +84,45 @@ def test_first_gene_remove_hint_fires_once_for_the_first_gene() -> None:
     )
     assert ComposeState._maybe_first_gene_remove_hint(second_gene) is None
     assert second_gene.remove_hint_shown is False
+
+
+def _restore_stand_in(saved: str, **over: Any) -> Any:
+    state: Any = SimpleNamespace(
+        saved_build=saved,
+        included_genes=[],
+        selected_categories=[],
+        personal_tag="",
+        router=SimpleNamespace(url=SimpleNamespace(query_parameters={})),
+        recomputed=0,
+    )
+    state._recompute_params = lambda: setattr(state, "recomputed", state.recomputed + 1)
+    for key, value in over.items():
+        setattr(state, key, value)
+    return state
+
+
+def test_restore_saved_build_brings_back_genes_and_categories() -> None:
+    gene = GAME_GENE_LIBRARY[0]
+    state = _restore_stand_in(json.dumps({"tag": "Ada", "genes": [gene["gene"], "no such gene"]}))
+    ComposeState.restore_saved_build.fn(state)
+    assert state.included_genes == [gene["gene"]]
+    assert state.selected_categories == [gene["category"]]
+    assert state.personal_tag == "Ada"
+    assert state.recomputed == 1
+
+
+def test_restore_saved_build_leaves_a_live_build_a_shared_link_and_junk_alone() -> None:
+    gene = GAME_GENE_LIBRARY[0]["gene"]
+    saved = json.dumps({"tag": "Ada", "genes": [gene]})
+    live = _restore_stand_in(saved, included_genes=["x"])
+    ComposeState.restore_saved_build.fn(live)
+    assert live.included_genes == ["x"] and live.recomputed == 0
+
+    shared = _restore_stand_in(saved)
+    shared.router.url.query_parameters = {"report": "1"}
+    ComposeState.restore_saved_build.fn(shared)
+    assert shared.included_genes == []
+
+    junk = _restore_stand_in("{not json")
+    ComposeState.restore_saved_build.fn(junk)
+    assert junk.included_genes == [] and junk.saved_build == ""
