@@ -12,13 +12,6 @@ exists, so `CLAUDE.md` and `AGENTS.md` are kept identical by hand.
 
 `scripts/validate_stl.py` (2026-11-25) cross-checks the 75 report rows and 75 STL files against the database's PDB/UniProt ids. First run: 11 report rows have no gene and no gene uses their PDB id (5W21, 3HH2, 7S5H, 3F1P, 5F3B, 5UDZ, 8Y02, 9C5S, 5MEO, 5VAQ, 9QNG: orphan files, to delete or map; the maintainer's call, they are LFS-tracked); every STL file has a report row (the extra directory entries are not STLs); every model is reported not watertight (cartoon renders with many shells, expected, but a print check on one model with a slicer is still missing). Next: decide the orphans with the maintainer, then compare a few models with their PDB structure by eye (someone with a viewer).
 
-## RM6 — OpenGenes: eight directionality defects and `bub1b_t23`
-
-**State:** unattended
-**Owner:** lead
-
-Items B and C of `docs/opengenes-open-issues.md`. Rule: `gene_confidence` on existing genes is flagged, never overwritten. Read against `data/enhancement.db` on 2026-11-26: `bub1b_t23` is already fixed (its primary row now says human genetics "bounds the deficiency side only" and that the case rests on the mouse overexpression arm); `foxo3` and `klotho` knockout rows are both `positive=false` now, one convention; `aqp1`, `hsf1_pv`, `xrcc5_roughy`, `uhrf1_deer`, `lrrc10_cardiac`, `rgy_pyrococcus` cards already say in `short_description` that the loss-of-function result shows necessity, not benefit of extra copies. Left: read their `narrative`, `achievements` and `mechanism` for the same slip (`uhrf1_deer` and `lrrc10_cardiac` have no primary confidence row to check), and flag any that remain to the maintainer; no edits to existing genes, and `dolt` is not here anyway.
-
 ## RM7 — OpenGenes wave 4: 130 never-reviewed genes
 
 **State:** unattended
