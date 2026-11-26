@@ -2,7 +2,7 @@
 
 Open work only; an item is `## RM<n> — title` with its state and owner under it. Written 2026-11-24 from the
 8 open issues, PR #27 and `docs/opengenes-*.md`. Toolchain on this machine: `uv sync` done, `uv run pytest`
-650 passed / 10 skipped (14 min); `dolt` is not on the PATH (`pixi global install dolt`); no pre-commit config
+650 passed / 10 skipped (14 min); `dolt` 2.7.7 in `~/.local/bin` (release binary; conda-forge has none); no pre-commit config
 exists, so `CLAUDE.md` and `AGENTS.md` are kept identical by hand.
 
 ## RM5 — #16 validate the printable protein models
@@ -17,7 +17,7 @@ exists, so `CLAUDE.md` and `AGENTS.md` are kept identical by hand.
 **State:** blocked: desk #93
 **Owner:** lead
 
-The brief's 8 input artifacts live in the maintainer's science session (not on this server), and `pixi global install dolt` finds no candidate here (2026-11-26). Desk #93: the maintainer supplies the files and a dolt binary, or the wave is parked (default: parked).
+The brief's 8 input artifacts live in the maintainer's science session (not on this server), (`dolt` 2.7.7 is installed in `~/.local/bin` from the release binary, 2026-11-26). Desk #93: the maintainer supplies the files, or the wave is parked (default: parked).
 
 ## RM8 — #13 gene interaction scores
 
