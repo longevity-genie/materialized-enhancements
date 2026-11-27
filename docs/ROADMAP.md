@@ -26,12 +26,12 @@ The brief's 8 input artifacts live in the maintainer's science session (not on t
 
 Desk #86: build now or park until the UI items land (default: park).
 
-## RM9 — #17 custom builds (class presets)
+## RM9 — #17 custom builds: put the preset tables into Dolt
 
-**State:** unattended
+**State:** blocked: desk #95
 **Owner:** lead
 
-Decided by default (no cost either way). Build after RM2–RM4, presets as data in the database, no code table.
+Code landed 2026-11-27 (loader, "Start from a build" row, apply event; built, not viewed). The row appears only when `build_presets` / `build_preset_genes` exist in the database; `data/dolt_migrations/001_build_presets.sql` creates them with three draft presets. When they have synced: add both tables to `scripts/export_db_csv.py` and `scripts/seed_db.py` (they list tables by hand), and drop this item.
 
 ## RM10 — #19 intro video
 
