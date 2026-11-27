@@ -4317,6 +4317,7 @@ def _rpg_gene_card(gene_item: rx.Var) -> rx.Component:
                     "REMOVE",
                     on_click=ComposeState.toggle_gene_from_library(gene_sym, gene_category),
                     title="Remove gene",
+                    aria_label="Remove " + gene_sym,
                     style={
                         "width": "92px",
                         "minHeight": "40px",
@@ -4337,6 +4338,7 @@ def _rpg_gene_card(gene_item: rx.Var) -> rx.Component:
                     disabled=cannot_afford,
                     on_click=ComposeState.toggle_gene_from_library(gene_sym, gene_category),
                     title=rx.cond(cannot_afford, "Not enough enhancement credits", "Add gene"),
+                    aria_label="Add " + gene_sym,
                     style={
                         "width": "92px",
                         "minHeight": "40px",

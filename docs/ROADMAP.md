@@ -46,11 +46,3 @@ Lead builds the skippable player; the clip itself is made by the maintainer or a
 **Owner:** lead
 
 Needs the maintainer. Desk #87: no page is shown on this server; visual items stay "built, not viewed" until a way of looking is named.
-
-## RM14 — #20 keyboard and screen-reader pass on the gene screen
-
-**State:** unattended
-**Owner:** lead
-
-From the UX read: `pages/index.py` (11.5k lines) has 16 aria labels and 3 keyboard hooks, so the gene accordions, body-map markers and Materialize button are probably unreachable without a mouse. Audit with real tab order, add labels and Enter/Space handling where missing. Built, not viewed, until RM12 names a way of looking.
-
