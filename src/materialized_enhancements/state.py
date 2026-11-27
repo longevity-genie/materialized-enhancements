@@ -21,6 +21,7 @@ from materialized_enhancements.ai_prompts import (
     build_profile_ai_links,
 )
 from materialized_enhancements.gene_data import (
+    BUILD_PRESETS,
     ANIMAL_LIBRARY,
     ANIMAL_PRICES,
     CATEGORY_MIN_GENE_PRICES,
@@ -1789,6 +1790,18 @@ class ComposeState(rx.State):
         ]
         if not remaining_in_category:
             self.selected_categories = [c for c in self.selected_categories if c != primary]
+        self._recompute_params()
+
+    def apply_preset(self, preset_id: str) -> None:
+        """Replace the loadout with a class preset; what does not fit the credit budget is dropped."""
+        preset = next((p for p in BUILD_PRESETS if p["preset_id"] == preset_id), None)
+        if preset is None:
+            return
+        category_by_gene = {g["gene"]: g["category"] for g in GAME_GENE_LIBRARY}
+        genes = [g for g in preset["genes"] if g in category_by_gene]
+        self.included_genes = genes
+        self.selected_categories = [c for c in UNIQUE_CATEGORIES if c in {category_by_gene[g] for g in genes}]
+        self.gene_library_open_category = ""
         self._recompute_params()
 
     def deselect_all_genes(self):  # type: ignore[return]

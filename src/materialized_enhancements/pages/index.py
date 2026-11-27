@@ -7,6 +7,7 @@ from materialized_enhancements.artex import artex_publish_button
 from materialized_enhancements.crawler_assets import OG_PREVIEW_SIZE, OG_PREVIEW_URL_PATH, PUBLIC_ROUTES
 from materialized_enhancements.env import public_app_url
 from materialized_enhancements.gene_data import (
+    BUILD_PRESETS,
     CATEGORY_PRICES,
     GAME_CATEGORY_COUNTS,
     GAME_CATEGORY_DISPLAY_COUNTS,
@@ -5002,6 +5003,37 @@ def _term_hint_script() -> rx.Component:
     )
 
 
+def _build_presets_row() -> rx.Component:
+    """Class presets ("custom builds", #17): one button each, only when the database carries any."""
+    if not BUILD_PRESETS:
+        return rx.fragment()
+    return rx.el.div(
+        rx.el.span("Start from a build:", style={"color": "#cbd5e1", "fontSize": "0.95rem", "fontWeight": "800"}),
+        *[
+            rx.el.button(
+                preset["name"],
+                type="button",
+                on_click=ComposeState.apply_preset(preset["preset_id"]),
+                title=preset["description"],
+                class_name="me-build-preset",
+                style={
+                    "minHeight": "40px",
+                    "padding": "8px 14px",
+                    "borderRadius": "999px",
+                    "border": "1px solid rgba(167, 139, 250, 0.58)",
+                    "background": "rgba(76, 29, 149, 0.34)",
+                    "color": "#ede9fe",
+                    "fontSize": "0.95rem",
+                    "fontWeight": "800",
+                    "cursor": "pointer",
+                },
+            )
+            for preset in BUILD_PRESETS
+        ],
+        style={"display": "flex", "flexWrap": "wrap", "alignItems": "center", "gap": "8px", "margin": "0 0 12px"},
+    )
+
+
 def _rpg_gene_library_panel() -> rx.Component:
     return rx.el.div(
         _pdb_viewer_scripts(),
@@ -5009,6 +5041,7 @@ def _rpg_gene_library_panel() -> rx.Component:
         _rpg_gene_library_anchor_script(),
         _rpg_gene_library_title(),
         rx.el.div(_materialize_hint_bubble("genes"), style={"position": "relative"}),
+        _build_presets_row(),
         rx.el.div(
             *[_rpg_category_gene_accordion(cat) for cat in UNIQUE_CATEGORIES],
             class_name="me-rpg-library-grid",

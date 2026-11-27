@@ -720,6 +720,43 @@ ANIMAL_LIBRARY: list[AnimalEntry] = build_animal_library(GENE_LIBRARY)
 # ---------------------------------------------------------------------------
 GAME_GENE_LIBRARY: list[GeneEntry] = [g for g in GENE_LIBRARY if g["game_enabled"]]
 PLAYABLE_GENE_NAMES: frozenset[str] = frozenset(g["gene"] for g in GAME_GENE_LIBRARY)
+
+
+class BuildPreset(TypedDict):
+    preset_id: str
+    name: str
+    description: str
+    genes: list[str]
+
+
+def _load_build_presets() -> list[BuildPreset]:
+    """Class presets ("custom builds", #17) from the build_presets / build_preset_genes tables.
+
+    Absent tables (a database synced before they exist in Dolt) give no presets, and the UI hides the row.
+    Genes that are not playable are dropped; a preset left with none is dropped.
+    """
+    if not USE_SQLITE:
+        return []
+    conn = _sqlite_conn()
+    present = {r[0] for r in conn.execute("SELECT name FROM sqlite_master WHERE type = 'table'")}
+    if not {"build_presets", "build_preset_genes"} <= present:
+        conn.close()
+        return []
+    gene_names = {g["gene_id"]: g["gene"] for g in GAME_GENE_LIBRARY}
+    members: dict[str, list[str]] = {}
+    for r in conn.execute("SELECT preset_id, gene_id FROM build_preset_genes ORDER BY preset_id, position"):
+        if r["gene_id"] in gene_names:
+            members.setdefault(r["preset_id"], []).append(gene_names[r["gene_id"]])
+    presets = [
+        BuildPreset(preset_id=r["preset_id"], name=r["name"], description=r["description"] or "", genes=members[r["preset_id"]])
+        for r in conn.execute("SELECT preset_id, name, description FROM build_presets ORDER BY sort_order, name")
+        if members.get(r["preset_id"])
+    ]
+    conn.close()
+    return presets
+
+
+BUILD_PRESETS: list[BuildPreset] = _load_build_presets()
 GAME_CATEGORY_COUNTS: dict[str, int] = build_category_counts(GAME_GENE_LIBRARY)
 # Accordion / body-map denominators: primary membership plus secondary badges.
 GAME_CATEGORY_DISPLAY_COUNTS: dict[str, int] = build_category_display_counts(
