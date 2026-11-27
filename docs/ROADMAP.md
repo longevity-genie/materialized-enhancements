@@ -33,13 +33,6 @@ Desk #86: build now or park until the UI items land (default: park).
 
 Code landed 2026-11-27 (loader, "Start from a build" row, apply event; built, not viewed). The row appears only when `build_presets` / `build_preset_genes` exist in the database; `data/dolt_migrations/001_build_presets.sql` creates them with three draft presets. When they have synced: add both tables to `scripts/export_db_csv.py` and `scripts/seed_db.py` (they list tables by hand), and drop this item.
 
-## RM10 — #19 intro video
-
-**State:** unattended
-**Owner:** lead
-
-Lead builds the skippable player; the clip itself is made by the maintainer or a volunteer.
-
 ## RM12 — Where pages are looked at
 
 **State:** blocked: desk #87

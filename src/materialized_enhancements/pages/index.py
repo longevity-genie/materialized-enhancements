@@ -1,5 +1,8 @@
 from __future__ import annotations
 
+import json
+from pathlib import Path
+
 import reflex as rx
 
 from materialized_enhancements.components.layout import fomantic_icon, template
@@ -7208,6 +7211,68 @@ def _onboarding_backdrop() -> rx.Component:
     )
 
 
+_INTRO_VIDEO_DIR = Path(__file__).resolve().parents[3] / "assets" / "intro"
+_INTRO_VIDEO_FILES = ("intro.mp4", "intro.webm")
+_INTRO_SEEN_KEY = "me_intro_seen"
+
+
+def _intro_video_overlay() -> rx.Component:
+    """Skippable first-visit intro clip (#19), played from ``assets/intro/intro.mp4`` (or ``.webm``).
+
+    The clip is made outside the code; with no file there the overlay is not rendered at all. It plays
+    muted and inline, ends by itself or on Skip / Escape, and is remembered per browser. Pure client
+    JS, so playing it costs no server round trip.
+    """
+    clip = next((name for name in _INTRO_VIDEO_FILES if (_INTRO_VIDEO_DIR / name).is_file()), "")
+    if not clip:
+        return rx.fragment()
+    src = json.dumps(f"/intro/{clip}")
+    key = json.dumps(_INTRO_SEEN_KEY)
+    return rx.script(
+        f"""
+(function () {{
+  var KEY = {key};
+  try {{ if (localStorage.getItem(KEY)) return; }} catch (e) {{}}
+  function start() {{
+    if (document.getElementById("me-intro-overlay")) return;
+    var box = document.createElement("div");
+    box.id = "me-intro-overlay";
+    box.setAttribute("role", "dialog");
+    box.setAttribute("aria-label", "Introduction video");
+    box.style.cssText = "position:fixed;inset:0;z-index:100000;background:#020617;display:flex;align-items:center;justify-content:center;";
+    var video = document.createElement("video");
+    video.src = {src};
+    video.autoplay = true; video.muted = true; video.playsInline = true; video.controls = true;
+    video.style.cssText = "max-width:100%;max-height:100%;";
+    var skip = document.createElement("button");
+    skip.type = "button";
+    skip.textContent = "Skip intro";
+    skip.style.cssText = "position:absolute;top:16px;right:16px;min-height:44px;padding:10px 18px;border-radius:999px;border:1px solid rgba(255,255,255,.5);background:rgba(15,23,42,.8);color:#fff;font-size:1rem;font-weight:800;cursor:pointer;";
+    function close() {{
+      try {{ localStorage.setItem(KEY, "1"); }} catch (e) {{}}
+      document.removeEventListener("keydown", onKey);
+      box.remove();
+    }}
+    function onKey(ev) {{ if (ev.key === "Escape") close(); }}
+    skip.addEventListener("click", close);
+    video.addEventListener("ended", close);
+    video.addEventListener("error", close);
+    document.addEventListener("keydown", onKey);
+    box.appendChild(video);
+    box.appendChild(skip);
+    document.body.appendChild(box);
+    skip.focus();
+    var played = video.play();
+    if (played && played.catch) played.catch(function () {{}});
+  }}
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", start);
+  else start();
+}})();
+"""
+    )
+
+
+
 def _rpg_active_genes_layout() -> rx.Component:
     return _rpg_shell(
         rx.el.div(
@@ -11524,7 +11589,7 @@ def _tab_page(active_route: str, content: rx.Component) -> rx.Component:
 )
 def index_page() -> rx.Component:
     """Character profile — default RPG loadout builder."""
-    return _tab_page("/", _rpg_active_genes_layout())
+    return rx.fragment(_intro_video_overlay(), _tab_page("/", _rpg_active_genes_layout()))
 
 
 _NOINDEX_META: list[dict[str, str]] = [
